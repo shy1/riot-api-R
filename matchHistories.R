@@ -1,5 +1,9 @@
 ## function to collect the match IDs of all the games in a player/summoner's match history
 ## when passed a summoner ID number as an argument
+require(dplyr)
+require(data.table)
+require(jsonlite)
+
 
 getMatchIds <- function(sid) {
      ## initialize variables
