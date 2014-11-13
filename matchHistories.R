@@ -63,5 +63,5 @@ getMatch <- function(mid) {
      raw.data <- readLines(url, warn = "F")
      fpath <- paste0("./matches/", mid, ".json")
      writeLines(raw.data, fpath)
-     
+     Sys.sleep(1.21)
 }
