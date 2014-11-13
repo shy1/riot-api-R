@@ -54,3 +54,14 @@ getMatchIds <- function(sid) {
      write.table(f.data, "matches.csv", quote=FALSE, append=TRUE, sep=",", qmethod="double", row.names=FALSE, col.names=FALSE)
 }
 
+## request full data/timeline of a specific match when passed a match ID as an argument
+## and write the received JSON data as a local file named after the match ID
+
+getMatch <- function(mid) {
+     key <-readLines("riotapi.key")
+     url <- paste0("https://na.api.pvp.net/api/lol/na/v2.2/match/", mid, "?includeTimeline=TRUE&api_key=", key)
+     raw.data <- readLines(url, warn = "F")
+     fpath <- paste0("./matches/", mid, ".json")
+     writeLines(raw.data, fpath)
+     
+}
