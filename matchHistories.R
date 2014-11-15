@@ -64,9 +64,9 @@ getMatch <- function(mid) {
 	raw.data <- "error"
 	while (raw.data == "error") {
 		raw.data <- tryCatch(readLines(url, warn = "F"), error=function(e) {
-		message(e)
-		return("error")
-	})
+						message(e)
+						return("error")
+					})
 		if (raw.data == "error") Sys.sleep(10)
 	}
 	fpath <- paste0("./matches/", mid, ".json")
