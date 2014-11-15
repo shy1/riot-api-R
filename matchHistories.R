@@ -60,8 +60,16 @@ getMatchIds <- function(sid) {
 getMatch <- function(mid) {
      key <-readLines("riotapi.key")
      url <- paste0("https://na.api.pvp.net/api/lol/na/v2.2/match/", mid, "?includeTimeline=TRUE&api_key=", key)
-     raw.data <- readLines(url, warn = "F")
+     ## in case of connection error wait 10 seconds and try again
+	 raw.data <- "error"
+     while (raw.data == "error") {
+          raw.data <- tryCatch(readLines(url, warn = "F"), error=function(e) {
+               message(e)
+               return("error")
+          })
+          if (raw.data == "error") Sys.sleep(10)
+     }
      fpath <- paste0("./matches/", mid, ".json")
      writeLines(raw.data, fpath)
-     Sys.sleep(1.21)
+     Sys.sleep(1.25)
 }
