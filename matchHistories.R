@@ -58,18 +58,18 @@ getMatchIds <- function(sid) {
 ## and write the received JSON data as a local file named after the match ID
 
 getMatch <- function(mid) {
-     key <-readLines("riotapi.key")
-     url <- paste0("https://na.api.pvp.net/api/lol/na/v2.2/match/", mid, "?includeTimeline=TRUE&api_key=", key)
-     ## in case of connection error wait 10 seconds and try again
-	 raw.data <- "error"
-     while (raw.data == "error") {
-          raw.data <- tryCatch(readLines(url, warn = "F"), error=function(e) {
-               message(e)
-               return("error")
-          })
-          if (raw.data == "error") Sys.sleep(10)
-     }
-     fpath <- paste0("./matches/", mid, ".json")
-     writeLines(raw.data, fpath)
-     Sys.sleep(1.25)
+	key <-readLines("riotapi.key")
+	url <- paste0("https://na.api.pvp.net/api/lol/na/v2.2/match/", mid, "?includeTimeline=TRUE&api_key=", key)
+	## in case of connection error wait 10 seconds and try again
+	raw.data <- "error"
+	while (raw.data == "error") {
+		raw.data <- tryCatch(readLines(url, warn = "F"), error=function(e) {
+		message(e)
+		return("error")
+	})
+	if (raw.data == "error") Sys.sleep(10)
+	}
+	fpath <- paste0("./matches/", mid, ".json")
+	writeLines(raw.data, fpath)
+	Sys.sleep(1.25)
 }
