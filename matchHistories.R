@@ -67,7 +67,7 @@ getMatch <- function(mid) {
 		message(e)
 		return("error")
 	})
-	if (raw.data == "error") Sys.sleep(10)
+		if (raw.data == "error") Sys.sleep(10)
 	}
 	fpath <- paste0("./matches/", mid, ".json")
 	writeLines(raw.data, fpath)
