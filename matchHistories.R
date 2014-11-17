@@ -58,18 +58,28 @@ getMatchIds <- function(sid) {
 ## and write the received JSON data as a local file named after the match ID
 
 getMatch <- function(mid) {
-	key <-readLines("riotapi.key")
-	url <- paste0("https://na.api.pvp.net/api/lol/na/v2.2/match/", mid, "?includeTimeline=TRUE&api_key=", key)
-	## in case of connection error wait 10 seconds and try again
-	raw.data <- "error"
-	while (raw.data == "error") {
-		raw.data <- tryCatch(readLines(url, warn = "F"), error=function(e) {
-						message(e)
-						return("error")
-					})
-		if (raw.data == "error") Sys.sleep(10)
-	}
-	fpath <- paste0("./matches/", mid, ".json")
-	writeLines(raw.data, fpath)
-	Sys.sleep(1.25)
+     key <-readLines("riotapi.key")
+     url <- paste0("https://na.api.pvp.net/api/lol/na/v2.2/match/", mid, "?includeTimeline=TRUE&api_key=", key)
+     ## continue without writing file if 404 connection error, else wait 10 seconds and try again
+	 raw.data <- "error"
+     while (raw.data == "error") {
+          raw.data <- tryCatch(readLines(url, warn = "F"), warning=function(w) {
+               if(length(grep("404", as.character(w)))>0) {
+                    message("404")
+                    return("404")
+               } else {
+                    message(w)
+                    return("error")
+               }
+          }, error=function(e) {
+               message(e)            
+               return("error")
+               
+          })
+          if (raw.data == "error") Sys.sleep(10)
+     }
+     fpath <- paste0("B:/matches/", mid, ".json")
+     if (!(raw.data=="404")) writeLines(raw.data, fpath)
+     Sys.sleep(1.25)
 }
+
